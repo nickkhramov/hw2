@@ -23,7 +23,7 @@
         </tr>
         <tr v-for="(user, index) in filteredUsers" :key="index" class="list__row">
           <td class="list__cell list__cell-name">
-            <span @click="filterControl(user.name)">{{ user.name }}</span>
+            <span>{{ user.name }}</span>
           </td>
           <td class="list__cell">
             <span>{{ user.url }}</span>
@@ -54,28 +54,6 @@ export default {
     }
   },
   methods: {
-    listBuilder(list) {
-      this.$refs.table.innerHTML = "";
-      let template = "";
-      if (!list.length) {
-        template = "<tr><td>Pokémon not found</td></tr>";
-      } else {
-        list.forEach((element, i) => {
-          template +=
-            "<tr class='list__row'><td class='list__cell list__cell-name'><span>" +
-            element.name +
-            "</span></td>" +
-            "<td class='list__cell'><span>" +
-            element.url +
-            "</span></td>" +
-            "<td><button class='list__button' @click='deleteUser(" +
-            i +
-            ")'>Delete</button></td></tr>";
-        });
-      }
-      this.$refs.table.innerHTML = template;
-    },
-
     setLocalStorage(key, value) {
       localStorage.setItem(key, JSON.stringify(value));
     },
@@ -91,18 +69,15 @@ export default {
           .then(data => {
             this.users = data.results;
             this.setLocalStorage("data", this.users);
-            this.listBuilder(this.users);
           });
       } else {
         this.users = this.getLocalStorage("data");
-        this.listBuilder(this.users);
       }
     },
 
     deleteUser(i) {
       this.users.splice(i, 1);
       this.setLocalStorage("data", this.users);
-      this.listBuilder(this.users);
     }
   },
   mounted() {
