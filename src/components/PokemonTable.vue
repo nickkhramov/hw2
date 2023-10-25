@@ -99,10 +99,6 @@ export default {
       }
     },
 
-    filterControl(q) {
-      this.query = q;
-    },
-
     deleteUser(i) {
       this.users.splice(i, 1);
       this.setLocalStorage("data", this.users);
